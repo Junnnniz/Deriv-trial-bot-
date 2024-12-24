@@ -1,0 +1,42 @@
+<xml xmlns="https://developers.binary.com/dxml/">
+    <block type="trade_definition" id="start_trade" x="10" y="10">
+        <field name="MARKET">volatility 100 (1s)</field>
+        <field name="CONTRACT_TYPE">DIGITMATCH</field>
+        <field name="DURATION">5</field>
+        <field name="DURATION_UNIT">t</field>
+        <field name="AMOUNT">1</field>
+        <field name="CURRENCY">USD</field>
+        <next>
+            <block type="controls_whileUntil" id="while_loop">
+                <field name="MODE">WHILE</field>
+                <value name="BOOL">
+                    <block type="logic_compare" id="check_last_digit">
+                        <field name="OP">EQ</field>
+                        <value name="A">
+                            <block type="math_number" id="specific_digit">
+                                <field name="NUM">2</field>
+                            </block>
+                        </value>
+                        <value name="B">
+                            <block type="trade_last_digit" id="get_last_digit" />
+                        </value>
+                    </block>
+                </value>
+                <statement name="DO">
+                    <block type="trade_definition" id="copy_digit_trade">
+                        <field name="MARKET">volatility 100 (1s)</field>
+                        <field name="CONTRACT_TYPE">DIGITMATCH</field>
+                        <field name="DURATION">5</field>
+                        <field name="DURATION_UNIT">t</field>
+                        <field name="AMOUNT">1</field>
+                        <field name="CURRENCY">USD</field>
+                        <field name="BASIS">stake</field>
+                        <value name="PREDICTION">
+                            <block type="trade_last_digit" id="copy_last_digit" />
+                        </value>
+                    </block>
+                </statement>
+            </block>
+        </next>
+    </block>
+</xml>
